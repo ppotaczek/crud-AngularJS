@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html ng-app="crud">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRUD</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <link rel="stylesheet" href="style/style.css">
+  </head>
+  <body ng-controller="TableController">
+    <section class="formSection">
+      <form name="form" novalidate>
+        <div class="col-xl-1">
+          <label>PostID</label>
+          <input
+            name="newPostId"
+            ng-model="newPostId"
+            required="required"
+            type="number">
+          </input>
+          <div ng-messages="form.newPostId.$error" ng-show="form.$submitted || form.newPostId.$touched">
+            <span ng-message="required"
+              class="error">Enter post ID!
+          </span>
+          </div>
+        </div>
+        <div class="col-xl-2">
+          <label>Name</label>
+          <input
+            name="newName"
+            ng-model="newName"
+            required="required"
+            type="text">
+          </input>
+          <div ng-messages="form.newName.$error" ng-show="form.$submitted || form.newName.$touched">
+            <span ng-message="required"
+              class="error">Enter name!
+            </span>
+          </div>
+        </div>
+        <div class="col-xl-2">
+          <label>E-mail</label>
+          <input name="newEmail" ng-model="newEmail" required="required" type="email"></input>
+          <div ng-messages="form.newEmail.$error" ng-show="form.$submitted || form.newEmail.$touched">
+            <span ng-message="required" class="error">
+              Enter email!
+            </span>
+            <span ng-message="email" class="error">
+              Invalid email!
+            </span>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <label>Body</label>
+          <br>
+          <textarea ng-model="newBody" required="required" name="newBody" type="text"></textarea>
+          <div ng-messages="form.newBody.$error" ng-show="form.$submitted || form.newBody.$touched">
+            <span ng-message="required"
+              class="error">Enter post!
+            </span>
+          </div>
+        </div>
+        <div class="col-xl-2">
+          <input ng-click="form.$valid && addNew()" class="addBtn btn btn-warning" type="submit" value="Add"></input>
+        </div>
+      </form>
+    </section>
+    <section>
+      <table class="table table-inverse">
+        <thead>
+          <tr>
+            <th ng-repeat="headline in headlines" ng-click="changeOrder(headline)">
+              {{ headline }}
+              <i ng-show="isOrderedBy(headline)" ng-class="{'glyphicon glyphicon-chevron-up': !isOrderedReverse(), 'glyphicon glyphicon-chevron-down': isOrderedReverse()}"></i>
+            </th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr dir-paginate="obj in data | orderBy: orderByColumn : orderReverse | itemsPerPage: 20">
+            <td>
+              <span ng-if="!obj.editing"> {{ obj.postId }} </span>
+              <input ng-if="obj.editing" ng-model="obj.postId" type="number"></input>
+            </td>
+            <td ng-repeat="(key, prop) in obj" ng-hide="$first" ng-if="!isBoolean(prop)">
+              <span ng-if="!obj.editing"> {{ prop }} </span>
+              <input ng-if="obj.editing" ng-model="obj[key]"></input>
+            </td>
+            <td>
+              <button ng-click="remove(obj)" type="button" class="btn btn-danger">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </td>
+            <td>
+              <button ng-click="editUser(obj)" ng-if="!obj.editing" type="button" class="btn btn-info">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
+              <button ng-click="editUserExit(obj)" ng-if="obj.editing" type="button" class="btn btn-primary">
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="paginationContainer">
+        <dir-pagination-controls
+           max-size="13"
+           direction-links="true"
+           boundary-links="true">
+        </dir-pagination-controls>
+      </div>
+    </section>
+    </main>
+    <script type="text/javascript" src="js/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular.min.js"></script>
+    <script type="text/javascript" src="js/lib/dirPagination.js"></script>
+    <script type="text/javascript" src="js/lib/angular-messages.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/modules/controllers.js"></script>
+    <script type="text/javascript" src="js/modules/services.js"></script>
+    <script type="text/javascript" src="js/modules/directives.js"></script>
+  </body>
+</html>

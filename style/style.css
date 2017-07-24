@@ -1,0 +1,38 @@
+body {
+  background-color: #373a3c;
+}
+
+label {
+  color: white;
+}
+
+th {
+  min-width: 100px;
+}
+
+input {
+  color: black;
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+  height: 30px;
+  margin-bottom: -6px;
+}
+
+.paginationContainer {
+  text-align: center;
+}
+
+.formSection {
+  margin: 20px;
+}
+
+.addBtn {
+  margin: 28px 0 20px 0;
+}
+
+.error {
+  color: red;
+}
